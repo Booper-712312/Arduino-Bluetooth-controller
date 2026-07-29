@@ -1,0 +1,95 @@
+====================================================
+           PC BLUETOOTH CONTROLLER v2.0
+              MAPA DE COMANDOS
+====================================================
+
+=========================
+MOVIMIENTO
+=========================
+
+Tecla PC          Comando Bluetooth
+
+W / w      ----->    F     (Forward)
+S / s      ----->    B     (Back)
+A / a      ----->    L     (Left)
+D / d      ----->    R     (Right)
+
+Q / q      ----->    G     (Forward Left)
+E / e      ----->    I     (Forward Right)
+
+Z / z      ----->    H     (Back Left)
+C / c      ----->    J     (Back Right)
+
+X / x      ----->    S     (Stop)
+
+=========================
+ILUMINACIÓN
+=========================
+
+I / i
+
+Primer toque  ----->  W     (Front Lights ON)
+Segundo toque ----->  w     (Front Lights OFF)
+
+--------------------------------------------
+
+K / k
+
+Primer toque  ----->  U     (Back Lights ON)
+Segundo toque ----->  u     (Back Lights OFF)
+
+=========================
+CLAXON
+=========================
+
+Mantener presionada H / h
+
+Presionar -----> V    (Horn ON)
+
+Soltar -------> v    (Horn OFF)
+
+=========================
+EXTRA
+=========================
+
+P / p
+
+Primer toque  ----->  X     (Extra ON)
+
+Segundo toque ----->  x     (Extra OFF)
+
+=========================
+VELOCIDADES
+=========================
+
+Tecla PC          Comando Bluetooth
+
+|           ----->    0      (0%)
+
+1           ----->    1      (10%)
+
+2           ----->    2      (20%)
+
+3           ----->    3      (30%)
+
+4           ----->    4      (40%)
+
+5           ----->    5      (50%)
+
+6           ----->    6      (60%)
+
+7           ----->    7      (70%)
+
+8           ----->    8      (80%)
+
+9           ----->    9      (90%)
+
+0           ----->    q      (100%)
+
+=========================
+PROGRAMA
+=========================
+
+ESC         ----->    Cerrar el controlador
+
+====================================================
