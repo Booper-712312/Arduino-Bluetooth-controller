@@ -1,0 +1,234 @@
+"""
+====================================================
+          PC Bluetooth Controller
+                Version 1.0
+====================================================
+Descripción:
+Control por teclado vía Bluetooth para rovers o proyectos.
+====================================================
+"""
+
+import serial
+from serial import SerialException
+import keyboard
+import time
+
+# ==========================================================
+# CONFIGURACIÓN
+# ==========================================================
+
+PUERTO = "COM11"          # Cambiar si Windows asigna otro puerto
+BAUDIOS = 9600
+
+VELOCIDAD_INICIAL = "5"
+
+# ==========================================================
+# VARIABLES
+# ==========================================================
+
+bluetooth = None
+
+velocidad_actual = VELOCIDAD_INICIAL
+ultimo_movimiento = None
+turbo_activado = False
+
+# ==========================================================
+# FUNCIONES
+# ==========================================================
+
+def conectar():
+    global bluetooth
+
+    try:
+
+        print("\nConectando con VAUXT...")
+
+        bluetooth = serial.Serial(PUERTO, BAUDIOS)
+
+        time.sleep(3)
+
+        bluetooth.write(VELOCIDAD_INICIAL.encode())
+
+        print("Conexión establecida correctamente.\n")
+
+        return True
+
+    except SerialException as e:
+
+        print("No fue posible conectar con el módulo Bluetooth.")
+        print(e)
+
+        return False
+
+
+def enviar(comando):
+
+    global ultimo_movimiento
+
+    if comando == ultimo_movimiento:
+        return
+
+    try:
+
+        bluetooth.write(comando.encode())
+
+        ultimo_movimiento = comando
+
+        mensajes = {
+            "F": "↑ Adelante",
+            "B": "↓ Atrás",
+            "L": "← Izquierda",
+            "R": "→ Derecha",
+            "S": "■ STOP"
+        }
+
+        if comando in mensajes:
+
+            print(f"[MOVIMIENTO] {mensajes[comando]}")
+
+    except SerialException:
+
+        print("Se perdió la conexión Bluetooth.")
+
+
+def cambiar_velocidad():
+
+    global velocidad_actual
+
+    for i in range(10):
+
+        tecla = str(i)
+
+        if keyboard.is_pressed(tecla):
+
+            if velocidad_actual != tecla:
+
+                velocidad_actual = tecla
+
+                bluetooth.write(tecla.encode())
+
+                print(f"[VELOCIDAD] Nivel {tecla}")
+
+            time.sleep(0.20)
+
+
+def turbo():
+
+    global turbo_activado
+
+    if keyboard.is_pressed("t"):
+
+        if not turbo_activado:
+
+            bluetooth.write(b'q')
+
+            turbo_activado = True
+
+            print("[MODO] TURBO ACTIVADO")
+
+    else:
+
+        turbo_activado = False
+
+
+def mostrar_menu():
+
+    print("==========================================")
+    print("        VAUXT S-3 CONTROL STATION")
+    print("==========================================")
+    print()
+    print("Movimiento")
+    print("------------------------------------------")
+    print("W -> Adelante")
+    print("S -> Atrás")
+    print("A -> Izquierda")
+    print("D -> Derecha")
+    print("ESPACIO -> STOP")
+    print()
+    print("Velocidad")
+    print("------------------------------------------")
+    print("0 = Máxima")
+    print("1 = Muy lenta")
+    print("2 = Lenta")
+    print("3 = Baja")
+    print("4 = Media baja")
+    print("5 = Media")
+    print("6 = Media alta")
+    print("7 = Alta")
+    print("8 = Muy alta")
+    print("9 = Rápida")
+    print()
+    print("T = TURBO")
+    print("Q = Salir")
+    print("==========================================\n")
+
+
+# ==========================================================
+# PROGRAMA PRINCIPAL
+# ==========================================================
+
+mostrar_menu()
+
+if not conectar():
+
+    quit()
+
+try:
+
+    while True:
+
+        cambiar_velocidad()
+
+        turbo()
+
+        if keyboard.is_pressed("w"):
+
+            enviar("F")
+
+        elif keyboard.is_pressed("s"):
+
+            enviar("B")
+
+        elif keyboard.is_pressed("a"):
+
+            enviar("L")
+
+        elif keyboard.is_pressed("d"):
+
+            enviar("R")
+
+        elif keyboard.is_pressed("space"):
+
+            enviar("S")
+
+        else:
+
+            enviar("S")
+
+        if keyboard.is_pressed("q"):
+
+            print("\nApagando estación de control...\n")
+
+            enviar("S")
+
+            break
+
+        time.sleep(0.02)
+
+except KeyboardInterrupt:
+
+    print("\nPrograma detenido por el usuario.")
+
+except Exception as e:
+
+    print("\nHa ocurrido un error:")
+    print(e)
+
+finally:
+
+    if bluetooth is not None:
+
+        bluetooth.close()
+
+    print("Puerto Bluetooth cerrado.")
+    print("Hasta luego.")
