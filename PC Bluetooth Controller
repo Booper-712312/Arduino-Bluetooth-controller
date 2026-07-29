@@ -41,7 +41,7 @@ def conectar():
 
     try:
 
-        print("\nConectando con VAUXT...")
+        print("\nConectando")
 
         bluetooth = serial.Serial(PUERTO, BAUDIOS)
 
@@ -134,7 +134,7 @@ def turbo():
 def mostrar_menu():
 
     print("==========================================")
-    print("        VAUXT S-3 CONTROL STATION")
+    print("Menú?")
     print("==========================================")
     print()
     print("Movimiento")
